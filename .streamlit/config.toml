@@ -1,0 +1,11 @@
+[client]
+toolbarMode = "minimal"
+showErrorDetails = false
+
+[theme]
+base = "dark"
+backgroundColor = "#141a28"
+primaryColor = "#e9b444"
+
+[browser]
+gatherUsageStats = false
