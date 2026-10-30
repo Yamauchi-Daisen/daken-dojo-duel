@@ -95,6 +95,10 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .mode h2{font-family:var(--display);font-weight:400;font-size:30px;letter-spacing:.06em}
 .mode h2 small{font-family:var(--body);font-size:13px;color:var(--mute);letter-spacing:0;margin-left:8px;font-weight:700}
 .mode p{margin:0;color:var(--mute);font-size:14px}
+.mode-goal{font-size:16px;font-weight:700;color:var(--washi);margin-top:-6px;letter-spacing:.02em}
+.mode .rules{color:var(--mute);line-height:1.6}
+.kicker{font-size:clamp(16px,2.6vw,22px);font-weight:700;letter-spacing:.12em;color:var(--gold)}
+.hero p{font-size:15px}
 .pick{display:flex;flex-direction:column;gap:8px}
 .pick button{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
 .pick button:hover{border-color:var(--gold)}
@@ -114,7 +118,7 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .pname input.need{border-color:var(--shu);animation:shake .3s}
 .pname-hint{margin:0;font-size:13px;color:var(--shu)}
 .pick-h{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);margin-bottom:-4px}
-.rules{font-size:13px;color:var(--mute);margin:0;padding-left:1.2em}
+.rules{font-size:14px;color:var(--mute);margin:0;padding-left:1.2em}
 .rules li{margin-block:2px}
 .below{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:16px}
 .box{background:var(--panel);border-radius:12px;padding:16px 18px;min-width:0}
@@ -391,7 +395,7 @@ table.hist{width:100%;border-collapse:collapse;font-size:13px;font-variant-numer
   <!-- ================= メニュー ================= -->
   <section id="menu">
     <header class="hero">
-      <div class="brand"><div class="ddd" aria-label="DDD">DDD</div><h1><span class="ash">Daken</span> Dojo <span>Duel</span></h1></div>
+      <div class="brand"><div class="ddd" aria-label="DDD">DDD</div><h1><span class="ash">Daken</span> Dojo <span>Duel</span></h1><div class="kicker">タッチタイピング練習ゲーム</div></div>
       <p>瓦を割ってキーの場所と指使いを覚え、格闘でローマ字入力の速さと正確さを鍛える、タッチタイピングの稽古場です。</p>
     </header>
 
@@ -413,15 +417,21 @@ table.hist{width:100%;border-collapse:collapse;font-size:13px;font-variant-numer
     <div class="modes">
       <div class="mode-col">
         <article class="mode">
-          <h2>瓦割り<span class="badge sub">訓練</span><small>キーの場所と指使い</small></h2>
-          <p>台座に出たキーを打つと瓦が割れます。速く打つほど多く割れ、1回につき最大10枚。20本勝負で、結果に白帯〜免許皆伝の評価がつきます。</p>
+          <h2>瓦割り<span class="badge sub">訓練</span></h2>
+          <div class="mode-goal">キーの場所と指使いを覚える</div>
+          <ul class="rules">
+            <li>台座に出たキーを打つと瓦が割れる。速く打つほど多く割れ、1回につき最大10枚</li>
+            <li>20本勝負。結果に白帯〜免許皆伝の評価がつく</li>
+          </ul>
           <div class="pick" id="kwPick"></div>
         </article>
 
         <article class="mode">
-          <h2>連撃<span class="badge sub">耐久</span><small>反応の速さと耐久力</small></h2>
-          <p>文字の書かれた板が上から落ちてきます。下の線に届く前にそのキーを打って割ります。時間がたつほど板の数と速さが増え、何秒耐えられるかを競います。</p>
+          <h2>連撃<span class="badge sub">耐久</span></h2>
+          <div class="mode-goal">反応の速さと耐久力を鍛える</div>
           <ul class="rules">
+            <li>上から落ちてくる板のキーを、下の線に届く前に打って割る</li>
+            <li>時間がたつほど板の数と速さが増える。何秒耐えられるかを競う</li>
             <li>板を3枚落とすと終了</li>
             <li>同じ文字の板が並んだときは、下にある板から割れる</li>
             <li>打ち間違えると、すべての板が少し下がる</li>
@@ -432,7 +442,8 @@ table.hist{width:100%;border-collapse:collapse;font-size:13px;font-variant-numer
       </div>
 
       <article class="mode main">
-        <h2>格闘<span class="badge">実戦</span><small>ローマ字入力の速さと正確さ</small></h2>
+        <h2>格闘<span class="badge">実戦</span></h2>
+        <div class="mode-goal">ローマ字入力の速さと正確さを鍛える</div>
         <ul class="rules">
           <li>単語を打ち切ると攻撃。速いほど大ダメージ</li>
           <li>3回続けて成功するとコンボチャンス。制限時間内に3語打てば大技</li>
@@ -1635,10 +1646,13 @@ function setWord(item){
   const s=F.s;s.item=item;s.typer=new Typer(item[1]);s.wordStart=s.time;renderWord();
 }
 function newWord(){
+  // 袋方式：1戦のあいだ同じお題を出さない（袋が空になったら詰め直す）
   const s=F.s, pool=WORDS[s.E.pool];
-  let w,tries=0;
-  do{w=pool[Math.floor(Math.random()*pool.length)];tries++}while(s.recent.includes(w[0])&&tries<30);
-  s.recent.push(w[0]);if(s.recent.length>Math.min(6,pool.length-1))s.recent.shift();
+  if(!s.bag||!s.bag.length){const last=s.recent[s.recent.length-1];s.bag=pickN(pool,pool.length);if(s.bag.length>1&&s.bag[s.bag.length-1][0]===last)s.bag.unshift(s.bag.pop())}
+  let w=s.bag.pop();
+  if(s.used&&s.used.has(w[0])&&s.bag.length)w=s.bag.pop();
+  s.recent.push(w[0]);if(s.recent.length>6)s.recent.shift();
+  (s.used=s.used||new Set()).add(w[0]);
   setWord(w);
 }
 function renderWord(){
@@ -1761,7 +1775,8 @@ function wordDmg(s,kps){
 }
 function pickN(a,n){const c=a.slice();for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]]}return c.slice(0,n)}
 function startCombo(){
-  const s=F.s, words=pickN(s.E.cpool?WORDS[s.E.cpool]:COMBO_POOL,3);
+  const s=F.s, cp=s.E.cpool?WORDS[s.E.cpool]:COMBO_POOL, fresh=cp.filter(w=>!(s.used&&s.used.has(w[0]))), words=pickN(fresh.length>=3?fresh:cp,3);
+  (s.used=s.used||new Set());words.forEach(w=>s.used.add(w[0]));
   const total=words.reduce((a,w)=>a+romaLen(w[1]),0);
   s.mode='combo';s.combo={words,idx:0,t:0,dmg:0,limit:(2.2+total*.42)*s.D.dodge};
   banner('コンボチャンス！','gold');sfx.combo();
