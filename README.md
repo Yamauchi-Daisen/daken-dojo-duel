@@ -17,4 +17,4 @@ streamlit run app.py
 
 ## 四天王（ランキング）
 
-`gas/Code.gs` を新しいスプレッドシートに紐づけた Apps Script にコピーし、ウェブアプリとしてデプロイします（実行: 自分、アクセス: 全員）。発行された `/exec` のURLを `game/index.html` の `RANK_URL` に設定し、`#openRank` ボタンの `style="display:none"` を外すと有効になります。
+`gas/Code.gs` を新しいスプレッドシートに紐づけた Apps Script にコピーし、ウェブアプリとしてデプロイします（実行: 自分、アクセス: 全員）。発行された `/exec` のURLを `game/index.html` の `RANK_URL` に設定し、有効です（無効にするには `RANK_URL` を空にして `#openRank` を非表示にします）。

@@ -450,7 +450,7 @@ table.hist{width:100%;border-collapse:collapse;font-size:13px;font-variant-numer
       <div class="box">
         <h3>成長記録</h3>
         <div class="mini-rank"><span class="dan" id="mDan">入門</span><span class="muted" id="mNext"></span></div>
-        <div class="actions" style="justify-content:flex-start"><button class="btn primary" id="openGrowth">記録を見る</button><button class="btn" id="openRank" style="display:none">四天王</button></div>
+        <div class="actions" style="justify-content:flex-start"><button class="btn primary" id="openGrowth">記録を見る</button><button class="btn" id="openRank">四天王</button></div>
       </div>
       <div class="box">
         <h3>苦手なキー</h3>
@@ -2517,7 +2517,7 @@ addEventListener('pointerdown',unlockAudio,{once:true});
 /* =====================================================================
    四天王（Googleスプレッドシートに記録を送り、上位4名だけを受け取る）
    ===================================================================== */
-const RANK_URL='';
+const RANK_URL='https://script.google.com/macros/s/AKfycbwU1Bj4H84PJLwu2sXNsWbvHH7j16MrseGKCBTv3xyAGGJDdNVSermjFUY194D4s-xpdg/exec';
 const RANK_ON=/^https:\/\/script\.google\.com\//.test(RANK_URL);
 const PID=(()=>{try{let v=localStorage.getItem('daken_pid');if(!v){v='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,12);localStorage.setItem('daken_pid',v)}return v}catch(e){return 'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,12)}})();
 const RK={tab:'dan',sub:{kawara:0,fight:0},data:null,status:'idle'};
